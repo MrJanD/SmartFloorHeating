@@ -1,0 +1,12 @@
+[Unit]
+Description=MQTT based floor heating service
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/pi/mqtt_radiator.py
+Restart=always
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target
