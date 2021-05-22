@@ -84,13 +84,13 @@ class MQTT_Handler(object):
         self.mqtt_pub_return = "Server/Radiator/return/temperature"
         self.mqtt_pub_state = "Server/Radiator/state"
         self.client = mqtt.Client()
-        
+
         self.kitchen_tuple = GPIO_Tuple(24, 12, inverse = True)
         self.diningroom_tuple = GPIO_Tuple(25, 16, inverse = True)
         self.livingroom_tuple = GPIO_Tuple(8, 20, inverse = True)
         self.pump_tuple = GPIO_Tuple(15, 18, inverse = True)
         self.power_led = Power_LED(7)
-        
+
         self.temperature = Temperature_Handler()
 
     def on_connect(self, client, userdata, flags, rc):
@@ -139,7 +139,7 @@ class MQTT_Handler(object):
         print("livingroom_radiator: " + message.topic + " " + str(message.payload))
         self.livingroom_tuple.set_gpio("on" in str(message.payload))
         client.publish(self.mqtt_pub_livingroom, self.get_tuple_mqtt_state(self.livingroom_tuple))
-        
+
     def pump_radiator(self, client, userdata, message):
         print("pump_radiator: " + message.topic + " " + str(message.payload))
         self.pump_tuple.set_gpio("on" in str(message.payload))
@@ -190,7 +190,6 @@ class MQTT_Handler(object):
             self.rollback()
             #emitter_thread.join()
             sys.exit()
-
 
 mqtt_handler = MQTT_Handler()
 mqtt_handler.run()
